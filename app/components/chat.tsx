@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./chat.module.css";
 import { AssistantStream } from "openai/lib/AssistantStream";
 import Markdown from "react-markdown";
+import Cookies from 'js-cookie';
 // @ts-expect-error - no types for this yet
 import { AssistantStreamEvent } from "openai/resources/beta/assistants/assistants";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
@@ -63,7 +64,9 @@ const Chat = ({
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [inputDisabled, setInputDisabled] = useState(false);
-  const [threadId, setThreadId] = useState("");
+  //const [threadId, setThreadId] = useState("");
+  const [threadId, setThreadId] = useState(Cookies.get("threadId") || "thread_p42uK66xbsDmJWX5peti8u6e"); // Load threadId from cookies
+
 
   // automatically scroll to bottom of chat
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -82,6 +85,7 @@ const Chat = ({
       });
       const data = await res.json();
       setThreadId(data.threadId);
+      Cookies.set("threadId", data.threadId); 
     };
     createThread();
   }, []);
@@ -249,7 +253,7 @@ const Chat = ({
   }
 
   return (
-    <div className={styles.chatContainer}>
+     <div className={styles.chatContainer}>
       <div className={styles.messages}>
         {messages.map((msg, index) => (
           <Message key={index} role={msg.role} text={msg.text} />

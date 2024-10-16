@@ -1,28 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
+import Chat from "./components/chat";
 
 const Home = () => {
-  const categories = {
-    "Basic chat": "basic-chat",
-    "Function calling": "function-calling",
-    "File search": "file-search",
-    All: "all",
+  const [isChatOpen, setChatOpen] = useState(false);
+
+  const toggleChat = () => {
+    setChatOpen(!isChatOpen);
   };
 
   return (
     <main className={styles.main}>
-      <div className={styles.title}>
-        Explore sample apps built with Assistants API
-      </div>
-      <div className={styles.container}>
-        {Object.entries(categories).map(([name, url]) => (
-          <a key={name} className={styles.category} href={`/examples/${url}`}>
-            {name}
-          </a>
-        ))}
-      </div>
+      {isChatOpen && (
+        <div className={styles.container}>
+          <div className={styles.chatHeader}>
+            <button className={styles.closeButton} onClick={toggleChat}>
+              Close
+            </button>
+            <div className={styles.headerTitle}>FansMaps Help</div>
+          </div>
+          <Chat />
+        </div>
+      )}
+      <button className={styles.chatButton} onClick={toggleChat}>
+        Chat
+      </button>
     </main>
   );
 };
