@@ -65,7 +65,7 @@ const Chat = ({
   const [messages, setMessages] = useState([]);
   const [inputDisabled, setInputDisabled] = useState(false);
   //const [threadId, setThreadId] = useState("");
-  const [threadId, setThreadId] = useState(Cookies.get("threadId") || "thread_p42uK66xbsDmJWX5peti8u6e"); // Load threadId from cookies
+  const [threadId, setThreadId] = useState(Cookies.get("threadId") || ""); // Load threadId from cookies
 
 
   // automatically scroll to bottom of chat
